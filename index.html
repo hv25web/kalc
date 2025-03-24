@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora CDT</title>
+    <title>CALCULADORA FINANCIERA</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         table {
@@ -67,7 +67,13 @@
             </div>
         </div>
     </nav>
-
+                        <h1><strong>Zona Cundiboyacense</strong></h1>
+    <h1 style="background: #f8f9fa; padding: 20px; border-radius: 8px; text-align: center;">
+        <h3 style="font-family: 'Roboto', sans-serif; color: #27ae60; margin-bottom: 10px;">¡Hola! Nos alegra verte aquí.
+        <p style="color: #34495e; font-size: 1.1em;">
+          simplifica las finanzas para que alcances tus metas. 
+          transformama tu visión en resultados.
+              </h1>
     <div id="cdt-section">
         <table>
             <tr>
@@ -89,7 +95,7 @@
 
                 for (let i = 0; i < 4; i++) {
                     document.write(`<tr>
-                        <td><input type='number' id='D${i}' oninput='calcular(${i})'></td>
+                        <td><input type='text' id='D${i}' oninput='formatearMonto(this); calcular(${i})'></td>
                         <td><input type='number' id='E${i}' value='${dias[i]}' readonly></td>
                         <td class='ocultarColumna'><input type='number' id='F${i}' value='${periodos[i]}' readonly></td>
                         <td><input type='number' id='G${i}' oninput='calcular(${i})'></td>
@@ -102,8 +108,25 @@
                     </tr>`);
                 }
 
+                function formatearMonto(input) {
+                    // Eliminar todos los caracteres que no sean números
+                    let valor = input.value.replace(/[^0-9]/g, '');
+                    
+                    // Formatear con separadores de miles
+                    if (valor) {
+                        input.value = parseInt(valor).toLocaleString('es-CO');
+                    } else {
+                        input.value = '';
+                    }
+                }
+
+                function obtenerValorNumerico(id) {
+                    let valor = document.getElementById(id).value;
+                    return parseFloat(valor.replace(/[^0-9]/g, '')) || 0;
+                }
+
                 function calcular(index) {
-                    let D = parseFloat(document.getElementById(`D${index}`).value) || 0;
+                    let D = obtenerValorNumerico(`D${index}`);
                     let E = parseFloat(document.getElementById(`E${index}`).value);
                     let F = parseFloat(document.getElementById(`F${index}`).value);
                     let G = parseFloat(document.getElementById(`G${index}`).value) || 0;
@@ -122,7 +145,7 @@
                     document.getElementById(`L${index}`).value = L.toFixed(2);
                     
                     let M = J - (K > 2000 ? J * 0.07 : 0);
-                    document.getElementById(`M${index}`).value = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(M);
+                    document.getElementById(`M${index}`).value = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(M);
                 }
                 
                 function mostrarCDT() {
