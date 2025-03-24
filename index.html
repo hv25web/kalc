@@ -63,6 +63,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#"  onclick="capacidadPago()"  style="color:darkgreen;">Capacidad Pago</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"  onclick="cambiarUrl('a')"  style="color:darkgreen;">&nbsp; A &nbsp;</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"  onclick="cambiarUrl('b')"  style="color:darkgreen;">&nbsp; B &nbsp;</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -216,9 +222,27 @@
                 document.getElementById("cdt-section").style.display = "none";
                 document.getElementById("capacidadpago-section").style.display = "block";
             }
+
         </script>
     </div>
+    <div id="contenido">
+        <p>Selecciona una opción del menú.</p>
+    </div>
+    <script>
+        function cambiarUrl(seccion) {
+            // Cambia la URL sin recargar la página
+            history.pushState(null, "", "/kalc/" + seccion);
 
+            // Cambia el contenido dinámicamente
+            document.getElementById("contenido").innerHTML = "<h2>Has seleccionado " + seccion.toUpperCase() + "</h2>";
+        }
+
+        // Maneja la navegación con el botón "atrás" del navegador
+        window.onpopstate = function () {
+            let seccion = location.pathname.split("/").pop();
+            document.getElementById("contenido").innerHTML = "<h2>Has seleccionado " + (seccion ? seccion.toUpperCase() : "Ninguno") + "</h2>";
+        };
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
