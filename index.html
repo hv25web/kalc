@@ -18,16 +18,16 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">                    
                     <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="cambiarUrl('cdt')"  style="color:darkgreen;">CDT</a>
+                        <a class="nav-link" href="#" onclick="cargarContenido('cdt')"  style="color:darkgreen;">CDT</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"  onclick="cambiarUrl('capacidadpago')"  style="color:darkgreen;">Capacidad Pago</a>
+                        <a class="nav-link" href="#"  onclick="cargarContenido('capacidadpago')"  style="color:darkgreen;">Capacidad Pago</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"  onclick="cambiarUrl('a')"  style="color:darkgreen;">&nbsp; A &nbsp;</a>
+                        <a class="nav-link" href="#"  onclick="cargarContenido('a')"  style="color:darkgreen;">&nbsp; A &nbsp;</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"  onclick="cambiarUrl('b')"  style="color:darkgreen;">&nbsp; B &nbsp;</a>
+                        <a class="nav-link" href="#"  onclick="cargarContenido('b')"  style="color:darkgreen;">&nbsp; B &nbsp;</a>
                     </li>
                 </ul>
             </div>
@@ -50,18 +50,30 @@
         <p>Selecciona una opción del menú.</p>
     </div>
     <script>
-        function cambiarUrl(seccion) {
+        function cargarContenido(seccion) {
             // Cambia la URL sin recargar la página
             history.pushState(null, "", "/kalc/" + seccion);
 
-            // Cambia el contenido dinámicamente
-            document.getElementById("contenido").innerHTML = "<h2>Has seleccionado " + seccion.toUpperCase() + "</h2>";
+            // Cargar el contenido de a.html o b.html
+            fetch(seccion + ".html")
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("contenido").innerHTML = data;
+                })
+                .catch(error => {
+                    document.getElementById("contenido").innerHTML = "<p>Error al cargar el contenido.</p>";
+                    console.error("Error al cargar " + seccion + ".html:", error);
+                });
         }
 
         // Maneja la navegación con el botón "atrás" del navegador
         window.onpopstate = function () {
             let seccion = location.pathname.split("/").pop();
-            document.getElementById("contenido").innerHTML = "<h2>Has seleccionado " + (seccion ? seccion.toUpperCase() : "Ninguno") + "</h2>";
+            if (seccion) {
+                cargarContenido(seccion);
+            } else {
+                document.getElementById("contenido").innerHTML = "<p>Selecciona una opción del menú.</p>";
+            }
         };
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
