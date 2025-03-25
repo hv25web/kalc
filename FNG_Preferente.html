@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FONDO PREFERENTE</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "menu.html", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    document.getElementById("menu").innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send();
+        });
+    </script>
+    <script>
+        const tarifas = {
+            "PREFERENTE": {
+                12: 2.15, 13: 2.16, 14: 2.20, 15: 2.26, 16: 2.33, 17: 2.42, 18: 2.51, 19: 2.62, 20: 2.73,
+                21: 2.85, 22: 2.97, 23: 3.10, 24: 3.23, 25: 3.28, 26: 3.35, 27: 3.41, 28: 3.49, 29: 3.58,
+                30: 3.67, 31: 3.76, 32: 3.87, 33: 3.97, 34: 4.08, 35: 4.20, 36: 4.31, 37: 4.38, 38: 4.45,
+                39: 4.52, 40: 4.60, 41: 4.68, 42: 4.77, 43: 4.87, 44: 4.96, 45: 5.06, 46: 5.17, 47: 5.27,
+                48: 5.38, 49: 5.45, 50: 5.52, 51: 5.60, 52: 5.68, 53: 5.76, 54: 5.85, 55: 5.94, 56: 6.03,
+                57: 6.13, 58: 6.23, 59: 6.33, 60: 6.43, 61: 6.50, 62: 6.57, 63: 6.65, 64: 6.73, 65: 6.81,
+                66: 6.90, 67: 6.98, 68: 7.07, 69: 7.16, 70: 7.26, 71: 7.35, 72: 7.45
+            },
+            "PREFERENTE PREMIUM": {
+                12: 1.00, 13: 1.01, 14: 1.02, 15: 1.05, 16: 1.08, 17: 1.12, 18: 1.17, 19: 1.22, 20: 1.27,
+                21: 1.32, 22: 1.38, 23: 1.44, 24: 1.50, 25: 1.53, 26: 1.56, 27: 1.59, 28: 1.62, 29: 1.66,
+                30: 1.71, 31: 1.75, 32: 1.80, 33: 1.85, 34: 1.90, 35: 1.95, 36: 2.01, 37: 2.04, 38: 2.07,
+                39: 2.10, 40: 2.14, 41: 2.10, 42: 2.22, 43: 2.26, 44: 2.32, 45: 2.35, 46: 2.40, 47: 2.45,
+                48: 2.50, 49: 2.53, 50: 2.57, 51: 2.60, 52: 2.64, 53: 2.68, 54: 2.72, 55: 2.76, 56: 2.81,
+                57: 2.85, 58: 2.90, 59: 2.94, 60: 2.99, 61: 3.02, 62: 3.06, 63: 3.09, 64: 3.13, 65: 3.17,
+                66: 3.21, 67: 3.25, 68: 3.29, 69: 3.33, 70: 3.38, 71: 3.42, 72: 3.47
+            }
+        };
+        
+            
+  // Función para formatear números con separadores de miles
+  function formatNumber(input) {
+    let value = input.value.replace(/\D/g, ''); // Eliminar caracteres no numéricos
+    if (value === '') {
+      input.value = '';
+      return;
+    }
+    let number = parseInt(value, 10);
+    input.value = number.toLocaleString('es-ES'); // Formatear con separadores de miles
+  }
+
+  // Función para obtener el número sin separadores de miles
+  function obtenerNumero(inputId) {
+    let input = document.getElementById(inputId);
+    return parseInt(input.value.replace(/\D/g, ''), 10) || 0; // Convertir a número sin comas
+  }
+
+  function calcular() {
+            let tipo = document.getElementById("garantia").value;
+            let credito = obtenerNumero("credito");
+            let plazo = parseInt(document.getElementById("plazo").value);
+
+            if (credito <= 0 || isNaN(plazo) || plazo <= 0) {
+                return;
+            }
+
+            if (tarifas[tipo] && tarifas[tipo][plazo]) {
+                let fondo = tarifas[tipo][plazo] / 100;
+                let comisionFondo = credito * fondo;
+                let iva = comisionFondo * 0.19;
+                let totalComision = comisionFondo + iva;
+
+                document.getElementById("fondo").value = (fondo * 100).toFixed(2).replace('.', ',') + "%";
+                document.getElementById("comisionFondo").value = comisionFondo.toLocaleString('es-ES');
+                document.getElementById("iva").value = iva.toLocaleString('es-ES');
+                document.getElementById("totalComision").value = totalComision.toLocaleString('es-ES');
+
+
+// Cálculo de beneficios fiscales
+let deduccionRenta = comisionFondo * 0.35; // 35% de la comisión fondo
+        let deduccionIva = iva; // El IVA se puede deducir completamente
+        let totalDeducciones = deduccionRenta + deduccionIva;
+
+        // Mostrar los resultados en los campos correspondientes
+        document.getElementById("deduccionRenta").value = deduccionRenta.toLocaleString('es-ES');
+        document.getElementById("deduccionIva").value = deduccionIva.toLocaleString('es-ES');
+        document.getElementById("totalDeducciones").value = totalDeducciones.toLocaleString('es-ES');
+
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="menu"></div> <!-- Aquí se cargará el menú -->        
+    <h2>FNG Preferente</h2>
+    <table border="1">
+        <tr>
+            <td>TIPO DE GARANTÍA</td>
+            <td>
+                <select id="garantia" onchange="calcular()">
+                    <option value="PREFERENTE">PREFERENTE</option>
+                    <option value="PREFERENTE PREMIUM">PREFERENTE PREMIUM</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>VALOR CRÉDITO</td>
+            <td><input type="text" id="credito" oninput="formatNumber(this); calcular();" placeholder=""></td>
+            </tr>
+        <tr>
+            <td>PLAZO</td>
+            <td><input type="number" id="plazo" oninput="calcular()"></td>
+        </tr>
+        <tr>
+            <td>%FONDO</td>
+            <td><input type="text" id="fondo" readonly></td>
+        </tr>
+        <tr>
+            <td>COMISIÓN FONDO</td>
+            <td><input type="text" id="comisionFondo" readonly></td>
+        </tr>
+        <tr>
+            <td>IVA</td>
+            <td><input type="text" id="iva" readonly></td>
+        </tr>
+        <tr>
+            <td>VALOR COMISIÓN FONDO</td>
+            <td><input type="text" id="totalComision" readonly></td>
+        </tr>
+    </table>
+
+    
+  <h3>BENEFICIOS FONDO DECLARENTES</h3>
+  <table border="1">
+    <tr>
+      <th>DEDUCCIÓN DE RENTA (35%)</th>
+      <td><input type="text" id="deduccionRenta" disabled></td>
+    </tr>
+    <tr>
+      <th>DEDUCCIÓN IVA 100%</th>
+      <td><input type="text" id="deduccionIva" disabled></td>
+    </tr>
+    <tr>
+      <th>TOTAL BENEFICIOS</th>
+      <td><input type="text" id="totalDeducciones" disabled></td>
+    </tr>
+  </table>
+</body>
+</html>

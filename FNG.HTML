@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> FONDO FNG</title>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "menu.html", true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                document.getElementById("menu").innerHTML = xhr.responseText;
+            }
+        };
+        xhr.send();
+    });
+  </script>
+  <script>
+    // Base de datos de comisiones
+    const baseDatos = [
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 12, comision: 2.99 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 13, comision: 3.01 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 14, comision: 3.03 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 15, comision: 3.05 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 16, comision: 3.06 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 17, comision: 3.08 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 18, comision: 3.10 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 19, comision: 3.11 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 20, comision: 3.13 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 21, comision: 3.15 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 22, comision: 3.17 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 23, comision: 3.18 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 24, comision: 3.20 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 25, comision: 3.22 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 26, comision: 3.23 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 27, comision: 3.25 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 28, comision: 3.27 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 29, comision: 3.29 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 30, comision: 3.30 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 31, comision: 3.32 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 32, comision: 3.34 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 33, comision: 3.35 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 34, comision: 3.37 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 35, comision: 3.39 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 36, comision: 3.41 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 37, comision: 3.42 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 38, comision: 3.44 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 39, comision: 3.46 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 40, comision: 3.47 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 41, comision: 3.49 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 42, comision: 3.51 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 43, comision: 3.53 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 44, comision: 3.54 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 45, comision: 3.56 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 46, comision: 3.58 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 47, comision: 3.59 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 48, comision: 3.61 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 49, comision: 3.63 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 50, comision: 3.65 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 51, comision: 3.66 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 52, comision: 3.68 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 53, comision: 3.70 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 54, comision: 3.71 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 55, comision: 3.73 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 56, comision: 3.75 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 57, comision: 3.77 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 58, comision: 3.78 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 59, comision: 3.80 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 60, comision: 3.82 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 61, comision: 3.83 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 62, comision: 2.85 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 63, comision: 3.87 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 64, comision: 3.88 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 65, comision: 3.90 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 66, comision: 3.92 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 67, comision: 3.93 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 68, comision: 3.95 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 69, comision: 3.97 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 70, comision: 3.99 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 71, comision: 4.00 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 72, comision: 4.02 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 73, comision: 4.04 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 74, comision: 4.05 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 75, comision: 4.07 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 76, comision: 4.09 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 77, comision: 4.11 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 78, comision: 4.12 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 79, comision: 4.14 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 80, comision: 4.16 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 81, comision: 4.17 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 82, comision: 4.19 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 83, comision: 4.21 },
+      { tipo: "EMP319", min: 996450, max: 8541000, plazo: 84, comision: 4.23 },
+
+      // Aquí se incluirían todas las demás filas de la base de datos...
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 12, comision: 3.50 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 13, comision: 3.52 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 14, comision: 3.58 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 15, comision: 3.68 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 16, comision: 3.80 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 17, comision: 3.93 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 18, comision: 4.09 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 19, comision: 4.26 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 20, comision: 4.44 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 21, comision: 4.64 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 22, comision: 4.84 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 23, comision: 5.05 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 24, comision: 5.27 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 25, comision: 5.35 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 26, comision: 5.45 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 27, comision: 5.56 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 28, comision: 5.68 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 29, comision: 5.82 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 30, comision: 5.97 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 31, comision: 6.13 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 32, comision: 6.29 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 33, comision: 6.47 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 34, comision: 6.65 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 35, comision: 6.83 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 36, comision: 7.02 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 37, comision: 7.13 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 38, comision: 7.24 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 39, comision: 7.36 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 40, comision: 7.49 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 41, comision: 7.62 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 42, comision: 7.77 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 43, comision: 7.92 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 44, comision: 8.08 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 45, comision: 8.24 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 46, comision: 8.41 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 47, comision: 8.58 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 48, comision: 8.76 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 49, comision: 8.87 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 50, comision: 8.99 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 51, comision: 9.11 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 52, comision: 9.24 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 53, comision: 9.38 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 54, comision: 9.52 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 55, comision: 9.67 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 56, comision: 9.82 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 57, comision: 9.98 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 58, comision: 10.14 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 59, comision: 10.30 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 60, comision: 10.47 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 61, comision: 10.58 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 62, comision: 10.70 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 63, comision: 10.82 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 64, comision: 10.95 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 65, comision: 11.09 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 66, comision: 11.22 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 67, comision: 11.37 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 68, comision: 11.51 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 69, comision: 11.66 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 70, comision: 11.81 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 71, comision: 11.97 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 72, comision: 12.13 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 73, comision: 12.24 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 74, comision: 12.36 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 75, comision: 12.48 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 76, comision: 12.61 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 77, comision: 12.74 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 78, comision: 12.87 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 79, comision: 13.01 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 80, comision: 12.15 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 81, comision: 12.29 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 82, comision: 12.44 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 83, comision: 13.59 },
+      { tipo: "EMP023", min: 8541001, max: 35587500, plazo: 84, comision: 12.74 },
+
+      // Se agregan más filas para los otros valores...
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 12, comision: 3.75 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 13, comision: 3.77 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 14, comision: 3.84 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 15, comision: 3.94 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 16, comision: 4.07 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 17, comision: 4.21 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 18, comision: 4.38 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 19, comision: 4.56 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 20, comision: 4.76 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 21, comision: 4.97 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 22, comision: 5.18 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 23, comision: 5.41 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 24, comision: 5.64 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 25, comision: 5.73 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 26, comision: 5.83 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 27, comision: 5.96 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 28, comision: 6.09 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 29, comision: 6.24 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 30, comision: 6.40 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 31, comision: 6.56 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 32, comision: 6.74 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 33, comision: 6.93 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 34, comision: 7.12 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 35, comision: 7.32 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 36, comision: 7.53 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 37, comision: 7.63 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 38, comision: 7.75 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 39, comision: 7.88 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 40, comision: 8.02 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 41, comision: 8.17 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 42, comision: 8.32 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 43, comision: 8.49 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 44, comision: 8.66 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 45, comision: 8.83 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 46, comision: 9.01 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 47, comision: 9.20 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 48, comision: 9.39 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 49, comision: 9.51 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 50, comision: 9.63 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 51, comision: 9.76 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 52, comision: 9.99 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 53, comision: 10.05 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 54, comision: 10.20 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 55, comision: 10.36 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 56, comision: 10.52 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 57, comision: 10.69 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 58, comision: 10.86 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 59, comision: 11.03 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 60, comision: 11.21 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 62, comision: 11.34 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 62, comision: 11.46 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 63, comision: 11.60 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 64, comision: 11.74 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 65, comision: 11.88 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 66, comision: 12.03 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 67, comision: 12.18 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 68, comision: 12.33 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 69, comision: 12.49 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 70, comision: 12.66 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 71, comision: 12.83 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 72, comision: 13.00 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 73, comision: 13.12 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 74, comision: 13.25 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 75, comision: 13.38 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 76, comision: 13.51 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 77, comision: 13.65 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 78, comision: 13.79 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 79, comision: 13.94 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 80, comision: 14.09 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 81, comision: 14.24 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 82, comision: 14.40 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 83, comision: 14.56 },
+      { tipo: "EMP231", min: 35587501, max: 170820000, plazo: 84, comision: 14.72 },
+      // Continúa agregando los datos según sea necesario...
+    ];
+
+    
+  // Función para formatear números con separadores de miles
+  function formatNumber(input) {
+    let value = input.value.replace(/\D/g, ''); // Eliminar caracteres no numéricos
+    if (value === '') {
+      input.value = '';
+      return;
+    }
+    let number = parseInt(value, 10);
+    input.value = number.toLocaleString('es-ES'); // Formatear con separadores de miles
+  }
+
+  // Función para obtener el número sin separadores de miles
+  function obtenerNumero(inputId) {
+    let input = document.getElementById(inputId);
+    return parseInt(input.value.replace(/\D/g, ''), 10) || 0; // Convertir a número sin comas
+  }
+
+  // Función para calcular la comisión basada en el valor del crédito y el plazo
+  function calcularComision() {
+    const valorCredito = obtenerNumero("valorCredito");
+    const tiempo = parseInt(document.getElementById("tiempo").value);
+
+    let comisionFondo = 0;
+
+    // Buscar la comisión según el valor del crédito y el plazo
+    for (let i = 0; i < baseDatos.length; i++) {
+      const dato = baseDatos[i];
+      if (valorCredito >= dato.min && valorCredito <= dato.max && tiempo === dato.plazo) {
+        comisionFondo = dato.comision;
+        break;
+      }
+    }
+
+    // Actualizar los campos con los valores calculados
+    document.getElementById("porcentajeFondo").value = comisionFondo.toLocaleString() + "%";
+
+    const comisionFondoValor = Math.round(valorCredito * (comisionFondo / 100));
+    document.getElementById("comisionFondo").value = comisionFondoValor.toLocaleString();
+
+    const iva = Math.round(comisionFondoValor * 0.19);
+    document.getElementById("iva").value = iva.toLocaleString();
+
+    const valorComisionFondo = Math.round(comisionFondoValor + iva);
+    document.getElementById("valorComisionFondo").value = valorComisionFondo.toLocaleString();
+
+    const deduccionRenta = Math.round(comisionFondoValor * 0.35);
+    document.getElementById("deduccionRenta").value = deduccionRenta.toLocaleString();
+
+    const deduccionIva = iva;
+    document.getElementById("deduccionIva").value = deduccionIva.toLocaleString();
+
+    const totalDeducciones = Math.round(deduccionRenta + deduccionIva);
+    document.getElementById("totalDeducciones").value = totalDeducciones.toLocaleString();
+  }
+</script>
+</head>
+<body>
+  <div id="menu"></div> <!-- Aquí se cargará el menú -->        
+  <h2>Cálculo de FNG</h2>
+
+  <!-- Tabla de cálculo FNG -->
+  <table border="1">
+    <tr>
+      <th>VALOR CREDITO </th>
+      <td><input type="text" id="valorCredito" oninput="formatNumber(this); calcularComision();" placeholder=""></td>
+    </tr>
+    <tr>
+      <th>PLAZO (Meses)</th>
+      <td><input type="number" id="tiempo" oninput="calcularComision()"></td>
+    </tr>
+    <tr>
+      <th>% FONDO</th>
+      <td><input type="text" id="porcentajeFondo" disabled></td>
+    </tr>
+    <tr>
+      <th>COMISION FONDO </th>
+      <td><input type="text" id="comisionFondo" disabled></td>
+    </tr>
+    <tr>
+      <th>IVA (19%)</th>
+      <td><input type="text" id="iva" disabled></td>
+    </tr>
+    <tr>
+      <th>VALOR COMISION FONDO </th>
+      <td><input type="text" id="valorComisionFondo" disabled></td>
+    </tr>
+  </table>
+
+  <h3>BENEFICIOS FONDO DECLARENTES</h3>
+  <table border="1">
+    <tr>
+      <th>DEDUCCIÓN DE RENTA (35%)</th>
+      <td><input type="text" id="deduccionRenta" disabled></td>
+    </tr>
+    <tr>
+      <th>DEDUCCIÓN IVA 100%</th>
+      <td><input type="text" id="deduccionIva" disabled></td>
+    </tr>
+    <tr>
+      <th>TOTAL BENEFICIOS</th>
+      <td><input type="text" id="totalDeducciones" disabled></td>
+    </tr>
+  </table>
+</body>
+</html>

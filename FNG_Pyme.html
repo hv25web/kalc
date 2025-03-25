@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FONDO PYME</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "menu.html", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    document.getElementById("menu").innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send();
+        });
+    </script>
+</head>
+<body>
+    <div id="menu"></div> <!-- Aquí se cargará el menú -->        
+    <h2>FNG Pyme</h2>
+    <table border="1">
+        <tr>
+            <th>VALOR DEL CRÉDITO</th>
+            <td><input type="text" id="creditoVisible" oninput="formatearCredito()" onblur="calcular()"><input type="hidden" id="credito"></td>
+        </tr>
+        <tr>
+            <th>PLAZO</th>
+            <td><input type="number" id="plazo" min="12" max="84" oninput="calcular()"></td>
+        </tr>
+        <tr>
+            <th>% FONDO</th>
+            <td id="fondo">0%</td>
+        </tr>
+        <tr>
+            <th>COMISIÓN FONDO</th>
+            <td id="comisionFondo">0</td>
+        </tr>
+        <tr>
+            <th>IVA (19%)</th>
+            <td id="iva">0</td>
+        </tr>
+        <tr>
+            <th>VALOR COMISIÓN FONDO</th>
+            <td id="valorComision">0</td>
+        </tr>
+    </table>
+    
+    <h2>Beneficios Fondo Declarantes</h2>
+    <table border="1">
+        <tr>
+            <th>DEDUCCIÓN DE RENTA (35%)</th>
+            <td id="deduccionRenta">0</td>
+        </tr>
+        <tr>
+            <th>DEDUCCIÓN IVA 100%</th>
+            <td id="deduccionIva">0</td>
+        </tr>
+        <tr>
+            <th>TOTAL BENEFICIOS</th>
+            <td id="totalBeneficios">0</td>
+        </tr>
+    </table>
+    
+    <script>
+        const baseDatos = [
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 12, comision: 5.15 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 13, comision: 5.18 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 14, comision: 5.27 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 15, comision: 5.41 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 16, comision: 5.58 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 17, comision: 5.79 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 18, comision: 6.02 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 19, comision: 6.27 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 20, comision: 6.54 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 21, comision: 6.82 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 22, comision: 7.12 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 23, comision: 7.43 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 24, comision: 7.75 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 25, comision: 7.87 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 26, comision: 8.01 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 27, comision: 8.18 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 28, comision: 8.36 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 29, comision: 8.57 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 30, comision: 8.78 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 31, comision: 9.01 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 32, comision: 9.26 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 33, comision: 9.51 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 34, comision: 9.78 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 35, comision: 10.05 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 36, comision: 10.33 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 37, comision: 10.48 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 38, comision: 10.65 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 39, comision: 10.83 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 40, comision: 11.02 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 41, comision: 11.22 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 42, comision: 11.43 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 43, comision: 11.65 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 44, comision: 11.89 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 45, comision: 12.13 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 46, comision: 12.37 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 47, comision: 12.63 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 48, comision: 12.89 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 49, comision: 13.05 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 50, comision: 13.21 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 51, comision: 13.41 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 52, comision: 13.60 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 53, comision: 13.80 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 54, comision: 14.01 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 55, comision: 14.23 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 56, comision: 14.45 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 57, comision: 14.68 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 58, comision: 14.91 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 59, comision: 15.15 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 60, comision: 15.40 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 61, comision: 15.57 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 62, comision: 15.74 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 63, comision: 15.93 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 64, comision: 16.12 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 65, comision: 16.31 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 66, comision: 16.52 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 67, comision: 16.73 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 68, comision: 16.94 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 69, comision: 17.16 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 70, comision: 17.38 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 71, comision: 17.61 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 72, comision: 17.85 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 73, comision: 18.02 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 74, comision: 18.19 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 75, comision: 18.37 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 76, comision: 18.56 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 77, comision: 18.75 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 78, comision: 18.94 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 79, comision: 19.15 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 80, comision: 19.35 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 81, comision: 19.56 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 82, comision: 19.78 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 83, comision: 19.99 },
+            { tipo: "EMP001", min: 996450, max: 1000000000, plazo: 84, comision: 20.22},
+        ];
+        
+        function formatearCredito() {
+            let inputVisible = document.getElementById("creditoVisible");
+            let inputOculto = document.getElementById("credito");
+            
+            // Obtener solo los números
+            let valor = inputVisible.value.replace(/\D/g, "");
+            
+            // Guardar el valor sin formato en el input oculto
+            inputOculto.value = valor ? parseInt(valor, 10) : 0;
+
+            // Mostrarlo con formato en el input visible
+            inputVisible.value = valor ? parseInt(valor, 10).toLocaleString() : "";
+        }
+
+        function calcular() {
+            let creditoStr = document.getElementById("credito").value.replace(/,/g, ""); // Remover comas
+            let credito = parseInt(creditoStr) || 0;
+            let plazo = parseInt(document.getElementById("plazo").value) || 0;
+            
+            if (credito === 0 || plazo === 0) {
+                return;
+            }
+            
+            let registro = baseDatos.find(entry => entry.plazo === plazo);
+            if (!registro) return;
+            
+            let fondo = registro.comision;
+            let comisionFondo = Math.round(credito * (fondo / 100));
+            let iva = Math.round(comisionFondo * 0.19);
+            let valorComision = comisionFondo + iva;
+            let deduccionRenta = Math.round(comisionFondo * 0.35);
+            let totalBeneficios = deduccionRenta + iva;
+            
+            document.getElementById("fondo").textContent = fondo.toFixed(2) + "%";
+            document.getElementById("comisionFondo").textContent = comisionFondo.toLocaleString();
+            document.getElementById("iva").textContent = iva.toLocaleString();
+            document.getElementById("valorComision").textContent = valorComision.toLocaleString();
+            document.getElementById("deduccionRenta").textContent = deduccionRenta.toLocaleString();
+            document.getElementById("deduccionIva").textContent = iva.toLocaleString();
+            document.getElementById("totalBeneficios").textContent = totalBeneficios.toLocaleString();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COMISION FINAGRO</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "menu.html", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    document.getElementById("menu").innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send();
+        });
+    </script>
+    <style>
+        table { width: 50%; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 8px; text-align: right; }
+        th { background-color: #f2f2f2; text-align: left; }
+        input { text-align: right; }
+    </style>
+</head>
+<body>
+    <div id="menu"></div> <!-- Aquí se cargará el menú -->    
+    <h2>Comisión FINAGRO</h2>
+    <table>
+        <tr><th>Concepto</th><th>Valor</th></tr>
+        <tr>
+            <td>MONTO CRÉDITO</td>
+            <td><input type="text" id="monto" oninput="formatearMonto()" ></td>
+        </tr>
+        <tr><td>PLAZO</td><td><input type="number" id="plazo" oninput="calcular()"></td></tr>
+        <tr><td>% COMISIÓN FAG</td><td><span id="comision">0%</span></td></tr>
+        <tr><td>TOTAL COMISIÓN FAG</td><td><span id="totalComision">0</span></td></tr>
+        <tr><td>ESTUDIO DE CRÉDITO</td><td>$238,000</td></tr>
+        <tr><td>TOTAL DESCUENTOS</td><td><span id="totalDescuentos">0</span></td></tr>
+    </table>
+    
+    <script>
+        const data = [
+            { plazo: 1, comision: 0.0038 }, { plazo: 2, comision: 0.0038 }, { plazo: 3, comision: 0.0038 },
+            { plazo: 4, comision: 0.0050 }, { plazo: 5, comision: 0.0063 }, { plazo: 6, comision: 0.0075 },
+            { plazo: 7, comision: 0.0088 }, { plazo: 8, comision: 0.0100 }, { plazo: 9, comision: 0.0113 },
+            { plazo: 10, comision: 0.0125 }, { plazo: 11, comision: 0.0138 }, { plazo: 12, comision: 0.0150 },
+            { plazo: 13, comision: 0.0268 }, { plazo: 14, comision: 0.0268 }, { plazo: 15, comision: 0.0268 },
+            { plazo: 16, comision: 0.0268 }, { plazo: 17, comision: 0.0268 }, { plazo: 18, comision: 0.0268 },
+            { plazo: 19, comision: 0.0291 }, { plazo: 20, comision: 0.0291 }, { plazo: 21, comision: 0.0291 },
+            { plazo: 22, comision: 0.0291 }, { plazo: 23, comision: 0.0291 }, { plazo: 24, comision: 0.0291 },
+            { plazo: 25, comision: 0.0350 }, { plazo: 26, comision: 0.0350 }, { plazo: 27, comision: 0.0350 },
+            { plazo: 28, comision: 0.0350 }, { plazo: 29, comision: 0.0350 }, { plazo: 30, comision: 0.0350 },
+            { plazo: 31, comision: 0.0350 }, { plazo: 32, comision: 0.0350 }, { plazo: 33, comision: 0.0350 },
+            { plazo: 34, comision: 0.0350 }, { plazo: 35, comision: 0.0350 }, { plazo: 36, comision: 0.0350 },
+            { plazo: 37, comision: 0.0415 }, { plazo: 38, comision: 0.0415 }, { plazo: 39, comision: 0.0415 },
+            { plazo: 40, comision: 0.0415 }, { plazo: 41, comision: 0.0415 }, { plazo: 42, comision: 0.0415 },
+            { plazo: 43, comision: 0.0415 }, { plazo: 44, comision: 0.0415 }, { plazo: 45, comision: 0.0415 },
+            { plazo: 46, comision: 0.0415 }, { plazo: 47, comision: 0.0415 }, { plazo: 48, comision: 0.0415 },
+            { plazo: 49, comision: 0.0473 }, { plazo: 50, comision: 0.0473 }, { plazo: 51, comision: 0.0473 },
+            { plazo: 52, comision: 0.0473 }, { plazo: 53, comision: 0.0473 }, { plazo: 54, comision: 0.0473 },
+            { plazo: 55, comision: 0.0473 }, { plazo: 56, comision: 0.0473 }, { plazo: 57, comision: 0.0473 },
+            { plazo: 58, comision: 0.0473 }, { plazo: 59, comision: 0.0473 }, { plazo: 60, comision: 0.0473 }
+        ];
+        
+        function formatearMonto() {
+            let input = document.getElementById('monto');
+            let valor = input.value.replace(/\D/g, ''); // Eliminar caracteres no numéricos
+            if (valor) {
+                valor = parseInt(valor).toLocaleString('es-CO'); // Formatear con separación de miles
+            }
+            input.value = valor;
+            calcular(); // Llamar la función calcular para actualizar los valores
+        }
+
+        function calcular() {
+            let montoStr = document.getElementById('monto').value.replace(/\./g, ''); // Quitar los puntos del separador
+            let monto = parseInt(montoStr) || 0;
+            let plazo = parseInt(document.getElementById('plazo').value) || 0;
+            let comisionFag = data.find(d => d.plazo === plazo)?.comision || 0;
+            
+            document.getElementById('comision').textContent = (comisionFag * 100).toFixed(2) + "%";
+            let totalComision = (monto * comisionFag) * 1.19;
+            document.getElementById('totalComision').textContent = "$" + totalComision.toLocaleString('es-CO');
+            
+            let totalDescuentos = totalComision + 238000;
+            document.getElementById('totalDescuentos').textContent = "$" + totalDescuentos.toLocaleString('es-CO');
+        }
+    </script>
+</body>
+</html>
