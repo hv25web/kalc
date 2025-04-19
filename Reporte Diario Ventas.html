@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CALCULADORA FINANCIERA</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/solid.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/solid.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.jss"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             var xhr = new XMLHttpRequest();
@@ -87,7 +87,7 @@
 </head>
 <body>
     <div id="menu"></div> <!-- Aquí se cargará el menú -->
-    <h1><strong>Reporte Diario 3</strong></h1>
+    <h1><strong>...Reporte Diario...</strong></h1>
 
   <!-- Botón de descarga -->
   <a
@@ -111,9 +111,10 @@
     const urlPDF = "https://hv25web.github.io/kalc/reporte_diario.pdf";
     // Forzar recarga sin caché
     const pdfUrl = `${"https://docs.google.com/gview?embedded=true&url"}=${urlPDF}?nocache=${new Date().getTime()}`;
+    const pdfUrlDescarga = `${urlPDF}?nocache=${new Date().getTime()}`;
     console.log({pdfUrl});
     document.getElementById("visorPdf").src = pdfUrl;
-    document.getElementById("descargarPdf").href = pdfUrl;
+    document.getElementById("descargarPdf").href = pdfUrlDescarga;
 
     // Mostrar fecha y hora actual
     const fecha = new Date();
@@ -137,5 +138,6 @@
       " - " +
       horaFormateada;
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>    
 </body>
 </html>
