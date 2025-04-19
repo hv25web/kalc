@@ -91,8 +91,11 @@
   <iframe id="visorPdf"></iframe>
 
   <script>
+    // URL absoluta del PDF (desde GitHub Pages)
+    const urlPDF = "https://hv25web.github.io/kalc/reporte_diario.pdf";
     // Forzar recarga sin caché
-    const pdfUrl = "reporte_diario.pdf?nocache=" + new Date().getTime();
+    const pdfUrl = `${"http://view.officeapps.live.com/op/view.aspx?src"}={urlPDF}?nocache={new Date().getTime()}`;
+    console.log({pdfUrl});
     document.getElementById("visorPdf").src = pdfUrl;
     document.getElementById("descargarPdf").href = pdfUrl;
 
