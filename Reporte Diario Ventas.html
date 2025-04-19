@@ -87,7 +87,7 @@
 </head>
 <body>
     <div id="menu"></div> <!-- Aquí se cargará el menú -->
-    <h1><strong>....Reporte Diario....</strong></h1>
+    <h1><strong>.Reporte Diario.</strong></h1>
 
   <!-- Botón de descarga -->
   <a
@@ -112,8 +112,8 @@
     const urlPDF = "https://drive.google.com/file/d/1XlmMpUVjjtX3qbEi_3IfnxnCwmuaVkyL/view";
     // Forzar recarga sin caché
     //const pdfUrl = `${"https://docs.google.com/gview?embedded=true&url"}=${urlPDF}?nocache=${new Date().getTime()}`;
-    const pdfUrl = `${urlPDF}&nocache=${new Date().getTime()}`;
-    const pdfUrlDescarga = `${urlPDF}&nocache=${new Date().getTime()}`;
+    const pdfUrl = `${urlPDF}?nocache=${new Date().getTime()}`;
+    const pdfUrlDescarga = `${urlPDF}?nocache=${new Date().getTime()}`;
     console.log({pdfUrl});
     document.getElementById("visorPdf").src = pdfUrl;
     document.getElementById("descargarPdf").href = pdfUrlDescarga;
