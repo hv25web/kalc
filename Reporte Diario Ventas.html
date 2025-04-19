@@ -108,10 +108,12 @@
 
   <script>
     // URL absoluta del PDF (desde GitHub Pages)
-    const urlPDF = "https://hv25web.github.io/kalc/reporte_diario.pdf";
+    //const urlPDF = "https://hv25web.github.io/kalc/reporte_diario.pdf";
+    const urlPDF = "https://drive.google.com/file/d/1XlmMpUVjjtX3qbEi_3IfnxnCwmuaVkyL/view";
     // Forzar recarga sin caché
-    const pdfUrl = `${"https://docs.google.com/gview?embedded=true&url"}=${urlPDF}?nocache=${new Date().getTime()}`;
-    const pdfUrlDescarga = `${urlPDF}?nocache=${new Date().getTime()}`;
+    //const pdfUrl = `${"https://docs.google.com/gview?embedded=true&url"}=${urlPDF}?nocache=${new Date().getTime()}`;
+    const pdfUrl = `${urlPDF}&nocache=${new Date().getTime()}`;
+    const pdfUrlDescarga = `${urlPDF}&nocache=${new Date().getTime()}`;
     console.log({pdfUrl});
     document.getElementById("visorPdf").src = pdfUrl;
     document.getElementById("descargarPdf").href = pdfUrlDescarga;
