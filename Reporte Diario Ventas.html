@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reporte Diario</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    h2 {
+      color: #2c3e50;
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+
+    .boton-descarga {
+      display: inline-block;
+      padding: 12px 24px;
+      background-color: #3498db;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+      margin-bottom: 10px;
+    }
+
+    .boton-descarga:hover {
+      background-color: #2980b9;
+    }
+
+    .fecha {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 70vh;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    @media (max-width: 600px) {
+      h2 {
+        font-size: 20px;
+      }
+
+      .boton-descarga {
+        width: 100%;
+        text-align: center;
+        font-size: 14px;
+        padding: 10px;
+      }
+
+      .fecha {
+        font-size: 14px;
+      }
+
+      iframe {
+        height: 60vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h2>Reporte Diario</h2>
+
+  <!-- Botón de descarga -->
+  <a
+    id="descargarPdf"
+    class="boton-descarga"
+    target="_blank"
+    href="reporte_diario.pdf"
+    download="reporte_diario.pdf"
+  >
+    Descargar reporte diario (PDF)
+  </a>
+
+  <!-- Fecha visible -->
+  <div id="fechaHoy" class="fecha"></div>
+
+  <!-- Vista previa del PDF -->
+  <iframe id="visorPdf"></iframe>
+
+  <script>
+    // Forzar recarga sin caché
+    const pdfUrl = "reporte_diario.pdf?nocache=" + new Date().getTime();
+    document.getElementById("visorPdf").src = pdfUrl;
+    document.getElementById("descargarPdf").href = pdfUrl;
+
+    // Mostrar fecha y hora actual
+    const fecha = new Date();
+    const opcionesFecha = {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+    const opcionesHora = {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    };
+    const fechaFormateada = fecha.toLocaleDateString("es-ES", opcionesFecha);
+    const horaFormateada = fecha.toLocaleTimeString("es-ES", opcionesHora);
+    document.getElementById("fechaHoy").textContent =
+      "Fecha del reporte: " +
+      fechaFormateada.charAt(0).toUpperCase() +
+      fechaFormateada.slice(1) +
+      " - " +
+      horaFormateada;
+  </script>
+</body>
+</html>
