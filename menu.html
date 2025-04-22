@@ -32,9 +32,14 @@
                     <a class="nav-link" href="Calc_Comi_urbano.html" style="color:darkgreen;">Calc Comi Urbano</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="Reporte Diario Ventas.html" style="color:darkgreen;"><i class="far fa-file-pdf"></i>&nbsp;Reporte de Ventas</a>
+                    <a class="nav-link" id="menuReporteDiario" href="Reporte Diario Ventas.html" style="color:darkgreen;"><i class="far fa-file-pdf"></i>&nbsp;Reporte de Ventas</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
+<script>
+    const pdfUrlDescarga = `Reporte Diario Ventas.html?nocache=${new Date().getTime()}`;
+    console.log({pdfUrlDescarga});
+    document.getElementById("menuReporteDiario").href = pdfUrlDescarga;
+</script>

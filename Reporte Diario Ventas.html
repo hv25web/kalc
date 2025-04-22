@@ -8,6 +8,26 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
     <script>
+      var isMobile = {
+          Android: function () {
+              return navigator.userAgent.match(/Android/i);
+          },
+          BlackBerry: function () {
+              return navigator.userAgent.match(/BlackBerry/i);
+          },
+          iOS: function () {
+              return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+          },
+          Opera: function () {
+              return navigator.userAgent.match(/Opera Mini/i);
+          },
+          Windows: function () {
+              return navigator.userAgent.match(/IEMobile/i) || navigator.userAgent.match(/WPDesktop/i);
+          },
+          any: function () {
+              return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+          }
+      };
         document.addEventListener("DOMContentLoaded", function() {
             var xhr = new XMLHttpRequest();
             xhr.open("GET", "menu.html", true);
@@ -87,7 +107,7 @@
 </head>
 <body>
     <div id="menu"></div> <!-- Aquí se cargará el menú -->
-    <h1><strong>...Reporte Diario..</strong></h1>
+    <h1><strong>Reporte Diario..v2</strong></h1>
 
   <!-- Botón de descarga -->
   <a
@@ -110,8 +130,12 @@
     // URL absoluta del PDF (desde GitHub Pages)
     const urlPDF = "https://hv25web.github.io/kalc/reporte_diario.pdf";
     //const urlPDF = "https://drive.google.com/file/d/1XlmMpUVjjtX3qbEi_3IfnxnCwmuaVkyL/preview";
+    var urlgoogle = ``;
+    if (isMobile.any()) {
+      urlgoogle = `https://docs.google.com/gview?embedded=true&url=`;
+    }    
     // Forzar recarga sin caché
-    const pdfUrl = `${"https://docs.google.com/gview?embedded=true&url"}=${urlPDF}?nocache=${new Date().getTime()}`;
+    const pdfUrl = `${urlgoogle}${urlPDF}?nocache=${new Date().getTime()}`;
     //const pdfUrl = `${urlPDF}?nocache=${new Date().getTime()}`;
     const pdfUrlDescarga = `${urlPDF}?nocache=${new Date().getTime()}`;
     console.log({pdfUrl});
