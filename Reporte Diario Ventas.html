@@ -40,7 +40,7 @@
         });
     </script>
   <style>
-    body {
+    #contentreportediarioventas {
       font-family: Arial, sans-serif;
       margin: 20px;
       background-color: #f9f9f9;
@@ -107,17 +107,18 @@
 </head>
 <body>
     <div id="menu"></div> <!-- Aquí se cargará el menú -->
-    <h1><strong>Reporte Diario..v2</strong></h1>
+    <h1><strong>Reporte Diario..v3</strong></h1>
 
+<div id="contentreportediarioventas">
   <!-- Botón de descarga -->
   <a
-    id="descargarPdf"
-    class="boton-descarga"
-    target="_blank"
-    href="reporte_diario.pdf"
-    download="reporte_diario.pdf"
+  id="descargarPdf"
+  class="boton-descarga"
+  target="_blank"
+  href="reporte_diario.pdf"
+  download="reporte_diario.pdf"
   >
-    Descargar reporte diario (PDF)
+  Descargar reporte diario (PDF)
   </a>
 
   <!-- Fecha visible -->
@@ -125,6 +126,8 @@
 
   <!-- Vista previa del PDF -->
   <iframe id="visorPdf"></iframe>
+</div>    
+  
 
   <script>
     // URL absoluta del PDF (desde GitHub Pages)
