@@ -118,10 +118,10 @@
             let K = J / E;
             document.getElementById(`K${index}`).value = K.toFixed(2);
             
-            let L = J * 0.07;
+            let L = J * 0.04;
             document.getElementById(`L${index}`).value = L.toFixed(2);
             
-            let M = J - (K > 2000 ? J * 0.07 : 0);
+            let M = J - (K > 2700 ? J * 0.04 : 0);
             document.getElementById(`M${index}`).value = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(M);
         }
         
